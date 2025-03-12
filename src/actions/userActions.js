@@ -16,9 +16,20 @@ const signin = (email, password) => async (dispatch) => {
   dispatch({ type: USER_SIGNIN_REQUEST });
   try {
     const { data } = await Axios.post("/api/users/signin", { email, password });
+    console.log({ type: USER_SIGNIN_SUCCESS, payload: data });
+
     dispatch({ type: USER_SIGNIN_SUCCESS, payload: data });
+    /*
+      Cookies.set("userInfo", encryptedData, {
+          expires: 7,
+          httpOnly: true, // 防止 XSS 攻击
+          secure: true    // 仅 HTTPS
+      });
+    */
     Cookie.set("userInfo", data);
   } catch (error) {
     dispatch({ type: USER_SIGNIN_FAIL, payload: error });
   }
 };
+
+export { signin };

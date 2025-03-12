@@ -20,7 +20,7 @@ function App() {
           <div className="header-links">
             <a href="cart.html">Cart</a>
             {userInfo ? (
-              <Link to="/profile">{userInfo.name}</Link>
+              <span>{userInfo.name}</span>
             ) : (
               <Link to="/signin">Sign In</Link>
             )}
@@ -28,8 +28,9 @@ function App() {
         </header>
         <div className="middle">
           <div className="content">
-            <Route path="/signin" component={SigninScreen}></Route>
             <Route path="/" exact={true} component={HomeScreen}></Route>
+            {/* <Route path="/profile" component={ProfileScreen}></Route> */}
+            <Route path="/signin" component={SigninScreen}></Route>
           </div>
         </div>
         <div className="footer">footer</div>
