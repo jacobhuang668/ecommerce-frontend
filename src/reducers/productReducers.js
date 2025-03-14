@@ -18,7 +18,6 @@ import {
 } from "../constants/productConstants";
 
 function productListReducers(state = { products: [] }, action) {
-  console.log("action.type:", action.type);
   switch (action.type) {
     case PRODUCT_LIST_REQUEST:
       return { loading: true, products: [] };

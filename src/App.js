@@ -1,14 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, BrowserRouter } from "react-router-dom";
 import "./App.css";
 import { Route } from "react-router-dom/cjs/react-router-dom.min";
 import HomeScreen from "./screens/HomeScreen";
 import SigninScreen from "./screens/SigninScreen";
-import { useSelector } from "react-redux";
+import { verifyToken } from "./actions/userActions";
+import { useSelector, useDispatch } from "react-redux";
 function App() {
   const userSignin = useSelector((state) => state.userSignin);
-  const { loading, userInfo, error } = userSignin;
-
+  const { loading, userInfo, error, token } = userSignin;
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(verifyToken(token));
+    return () => {
+      //
+      console.log("remove token", token);
+    };
+  }, [token]);
+  console.log("userInfo", userInfo, "token", token);
   return (
     <BrowserRouter>
       <div className="grid-container">

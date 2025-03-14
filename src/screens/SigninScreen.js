@@ -13,12 +13,11 @@ export default function SigninScreen(props) {
 
   useEffect(() => {
     if (userInfo) {
-      console.log("userInfo", userInfo, "redirect", redirect);
       props.history.push(redirect);
     }
     return () => {};
   }, [userInfo]);
-
+  console.log("userInfo", userInfo, "redirect", redirect);
   function onSubmitHandler(e) {
     e.preventDefault();
     dispatch(signin(email, password));
