@@ -19,7 +19,7 @@ import {
   ORDER_LIST_SUCCESS,
   ORDER_LIST_FAIL,
 } from "../constants/orderConstants";
-const listMyOrders = () => async (dispatch) => {
+const listMyOrders = () => async (dispatch, getState) => {
   try {
     dispatch({ type: MY_ORDER_LIST_REQUEST });
     /*
@@ -43,8 +43,15 @@ const listMyOrders = () => async (dispatch) => {
 
 
      */
-    const { data } = await Axios.get("/api/orders/mine");
-    console.log("data--", data);
+    console.log("token--", localStorage.getItem("token"));
+    const { data } = await Axios.post(
+      "/api/orders/mine",
+      {},
+      {
+        headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+      }
+    );
+    console.log("---data---", data);
     dispatch({ type: MY_ORDER_LIST_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: MY_ORDER_LIST_FAIL, payload: error });

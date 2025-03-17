@@ -34,7 +34,6 @@ const listProducts =
           "&sortOrder=" +
           sortOrder
       );
-      console.log("data:", data, "headers:", headers);
       dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
     } catch (error) {
       dispatch({ type: PRODUCT_LIST_FAIL, payload: error.message });

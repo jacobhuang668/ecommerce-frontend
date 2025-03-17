@@ -19,7 +19,6 @@ const signin = (email, password) => async (dispatch) => {
   try {
     const { data } = await Axios.post("/api/users/signin", { email, password });
     localStorage.setItem("token", data.encrptTokens);
-    console.log("data---", data);
     dispatch({ type: USER_SIGNIN_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: USER_SIGNIN_FAIL, payload: error });
