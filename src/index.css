@@ -142,42 +142,13 @@ a{
     font-size: 2rem;
     font-weight: bold;
 }
-/*
-.form {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-}
-.form-container {
-  display: flex;
-  flex-direction: column;
-  width: 32rem;
-  padding: 2rem;
-  border: 0.1rem #c0c0c0 solid;
-  border-radius: 0.5rem;
-  list-style-type: none;
-}
-.form-container li {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 1rem;
-  margin-top: 1rem;
-}
-input {
-  padding: 1rem;
-  border: 0.1rem #c0c0c0 solid;
-  border-radius: 0.5rem;
-}
-
-*/
 
 .form{
     display: flex;
     justify-content: center;
     align-items: center;
     border: 0.1rem solid blue;
-    height: 80vh;
+    height: 100vh;
 }
 .form-container{
     display: flex;
@@ -214,6 +185,9 @@ input {
     cursor: pointer;
    
 }
+.button:active{
+    transform: scale(0.98);
+}
 
 button{
     font-size: 1.6rem;
@@ -230,6 +204,43 @@ button{
 .button.secondary.text-center:hover{
     color: red;
 }
+
+.profile{
+    display: flex;
+}
+.profile-info{
+    flex: 0 1 30rem;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*如果 iPhone SE 屏幕太小，布局需要调整，可以使用 媒体查询：*/
 
 /* @media (max-width: 375px)and (max-width: 390px) { /* iPhone SE 

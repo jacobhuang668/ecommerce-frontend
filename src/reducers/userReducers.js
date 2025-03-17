@@ -5,6 +5,7 @@ import userConstants, {
   USER_LOGOUT,
   USER_VERIFY_SUCCESS,
   USER_VERIFY_FAIL,
+  USER_LOGOUT_FAIL,
 } from "../constants/userConstants";
 
 const userSigninReducer = (state = {}, action) => {
@@ -20,7 +21,9 @@ const userSigninReducer = (state = {}, action) => {
     case USER_VERIFY_FAIL:
       return { loading: false, error: action.payload };
     case USER_LOGOUT:
-      return {};
+      return { message: action.payload };
+    case USER_LOGOUT_FAIL:
+      return { message: action.payload };
     default:
       return state;
   }

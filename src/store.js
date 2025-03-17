@@ -3,11 +3,14 @@ import thunk from "redux-thunk";
 import Cookie from "js-cookie";
 import { productListReducers } from "./reducers/productReducers";
 import { userSigninReducer } from "./reducers/userReducers";
+import { myOrderListReducer } from "./reducers/orderReducers";
 const reducer = combineReducers({
   productList: productListReducers,
   userSignin: userSigninReducer,
+  myOrderList: myOrderListReducer,
 });
-const token = Cookie.getJSON("token") || null;
+//const token = Cookie.getJSON("token") || null;
+const token = localStorage.getItem("token");
 
 const initialState = {
   userSignin: { token },

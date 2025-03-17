@@ -17,7 +17,6 @@ export default function SigninScreen(props) {
     }
     return () => {};
   }, [userInfo]);
-  console.log("userInfo", userInfo, "redirect", redirect);
   function onSubmitHandler(e) {
     e.preventDefault();
     dispatch(signin(email, password));
