@@ -7,18 +7,36 @@ function ProfileScreen(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const userSignin = useSelector((state) => state.userSignin);
-  const { token } = userSignin;
+  const { userInfo, token } = userSignin;
+
   const myOrderList = useSelector((state) => state.myOrderList);
-  const { orders } = myOrderList;
+  const { loading: orderLoading, orders, error: orderError } = myOrderList;
   const dispatch = useDispatch();
   function onSubmitHandler(e) {
     e.preventDefault();
   }
   useEffect(() => {
-    dispatch(listMyOrders());
-    return () => {};
-  }, []);
-  console.log("ProfileScreen:", token, "myOrderList:", orders);
+    const handleStorageChange = (e) => {
+      if (e.key === "token") {
+        console.log("Token changed via storage event:", e.newValue);
+        //setLocalToken(e.newValue); // 更新状态
+      }
+    };
+    window.addEventListener("storage", handleStorageChange);
+    //input 显示数据
+    if (userInfo) {
+      setName(userInfo.name);
+      setEmail(userInfo.email);
+      setPassword(userInfo.password ?? ""); // 若 value 是 undefined 或 null，用 ""
+      dispatch(listMyOrders());
+    }
+    return () => {
+      //刷新前，旧组件卸载，触发清理函数
+      window.removeEventListener("storage", handleStorageChange);
+      console.log(333); //React 内的 token 是静态值（渲染时的快照）。localStorage 变化不自动反映到 token。
+      //当浏览器localStorage的token被修改时，就会触发清理函数。const [localToken, setLocalToken] = useState(localStorage.getItem("token") || "");
+    };
+  }, [userInfo, token]);
   return (
     <div className="profile">
       <div className="profile-info">
@@ -30,8 +48,11 @@ function ProfileScreen(props) {
               </li>
               <li>
                 <label>Name</label>
+                {/*在 <form> 中，提交时会生成键值对（如 { name: "输入的值" }）。 */}
                 <input
-                  type="name"
+                  value={name}
+                  type="text"
+                  name="name"
                   onChange={(e) => {
                     setName(e.target.value);
                   }}
@@ -40,7 +61,9 @@ function ProfileScreen(props) {
               <li>
                 <label>Email</label>
                 <input
-                  type="email"
+                  value={email}
+                  type="text"
+                  name="email"
                   onChange={(e) => {
                     setEmail(e.target.value);
                   }}
@@ -49,7 +72,9 @@ function ProfileScreen(props) {
               <li>
                 <label>Password</label>
                 <input
+                  value={password}
                   type="password"
+                  name="password"
                   onChange={(e) => {
                     setPassword(e.target.value);
                   }}
@@ -66,6 +91,7 @@ function ProfileScreen(props) {
                   className="button secondary full-width"
                   onClick={() => {
                     dispatch(logout(token));
+                    localStorage.removeItem("token");
                     props.history.push("/signin");
                   }}
                 >

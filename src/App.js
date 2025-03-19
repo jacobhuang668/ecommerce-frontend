@@ -12,12 +12,13 @@ function App() {
   const { userInfo, token } = userSignin;
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(verifyToken(token));
+    if (token) {
+      dispatch(verifyToken(token));
+    }
     return () => {
       //
     };
   }, [token]);
-
   return (
     <BrowserRouter>
       <div className="grid-container">

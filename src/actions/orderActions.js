@@ -43,7 +43,6 @@ const listMyOrders = () => async (dispatch, getState) => {
 
 
      */
-    console.log("token--", localStorage.getItem("token"));
     const { data } = await Axios.post(
       "/api/orders/mine",
       {},
@@ -51,7 +50,6 @@ const listMyOrders = () => async (dispatch, getState) => {
         headers: { Authorization: "Bearer " + localStorage.getItem("token") },
       }
     );
-    console.log("---data---", data);
     dispatch({ type: MY_ORDER_LIST_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: MY_ORDER_LIST_FAIL, payload: error });

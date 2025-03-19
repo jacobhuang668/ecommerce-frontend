@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { listProducts } from "../actions/productActions";
+import { verifyToken } from "../actions/userActions";
 function HomeScreen(props) {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [sortOrder, setSortOrder] = useState("");
   const category = props.match.params.id ? props.match.params.id : "";
   const productList = useSelector((state) => state.productList);
   const { loading, products, error } = productList;
-  console.log("products:", products);
   const dispatch = useDispatch();
   useEffect(() => {
     //进入action creator
     dispatch(listProducts(category, "", sortOrder));
+    const token = localStorage.getItem("token");
+    if (token) {
+      dispatch(verifyToken(token));
+    }
     return () => {
       //nothing to do
       //你可能认为 sortOrder 始终是旧值，但实际上 useEffect 回调中使用的是最新值。
