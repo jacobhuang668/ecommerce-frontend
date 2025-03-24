@@ -24,6 +24,32 @@ const signin = (email, password) => async (dispatch) => {
     dispatch({ type: USER_SIGNIN_FAIL, payload: error });
   }
 };
+const update = (userInfo) => async (dispatch, getState) => {
+  try {
+    const {
+      userSignin: { token },
+    } = getState();
+    //解构赋值的嵌套写法（userSignin: { token }）表示从 state.userSignin 中提取 token，
+    /**
+        const { a } = { a: 1 };
+        console.log(a); // 1
+        const { b: { c } } = { b: { c: 2 } };
+        console.log(c); // 2
+       */
+    dispatch({ type: USER_UPDATE_REQUEST });
+    const config = { headers: { Authorization: "Bearer " + token } };
+    const { data } = await Axios.post("/api/users/update", userInfo, config);
+    localStorage.setItem("token", data);
+    dispatch({ type: USER_UPDATE_SUCCESS, payload: data });
+    dispatch({
+      type: USER_VERIFY_SUCCESS,
+      payload: data,
+      token: data,
+    });
+  } catch (error) {
+    dispatch({ type: USER_UPDATE_FAIL, payload: error });
+  }
+};
 
 const verifyToken = (encryptedToken) => async (dispatch) => {
   if (!encryptedToken) return;
@@ -55,7 +81,11 @@ const verifyToken = (encryptedToken) => async (dispatch) => {
       */
       // { withCredentials: true }配置选项（config）。
     );
-    dispatch({ type: "USER_VERIFY_SUCCESS", payload: data });
+    dispatch({
+      type: "USER_VERIFY_SUCCESS",
+      payload: data,
+      token: encryptedToken,
+    });
   } catch (error) {
     dispatch({
       type: "USER_VERIFY_FAIL",
@@ -75,4 +105,4 @@ const logout = (encryptedToken) => async (dispatch) => {
   }
 };
 
-export { signin, verifyToken, logout };
+export { signin, verifyToken, logout, update };

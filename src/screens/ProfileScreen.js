@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../actions/userActions";
+import { logout, update } from "../actions/userActions";
 import { listMyOrders } from "../actions/orderActions";
 function ProfileScreen(props) {
   const [name, setName] = useState("");
@@ -11,32 +11,26 @@ function ProfileScreen(props) {
 
   const myOrderList = useSelector((state) => state.myOrderList);
   const { loading: orderLoading, orders, error: orderError } = myOrderList;
+
+  const userUpdate = useSelector((state) => state.userUpdate);
+  const { loading: updateLoading, error: updateError, success } = userUpdate;
+
   const dispatch = useDispatch();
   function onSubmitHandler(e) {
     e.preventDefault();
+    dispatch(update({ userId: userInfo._id, email, name, password }));
   }
+
   useEffect(() => {
-    const handleStorageChange = (e) => {
-      if (e.key === "token") {
-        console.log("Token changed via storage event:", e.newValue);
-        //setLocalToken(e.newValue); // 更新状态
-      }
-    };
-    window.addEventListener("storage", handleStorageChange);
     //input 显示数据
     if (userInfo) {
-      setName(userInfo.name);
-      setEmail(userInfo.email);
+      setName(userInfo.name ?? "");
+      setEmail(userInfo.email ?? "");
       setPassword(userInfo.password ?? ""); // 若 value 是 undefined 或 null，用 ""
-      dispatch(listMyOrders());
+      dispatch(listMyOrders(token));
     }
-    return () => {
-      //刷新前，旧组件卸载，触发清理函数
-      window.removeEventListener("storage", handleStorageChange);
-      console.log(333); //React 内的 token 是静态值（渲染时的快照）。localStorage 变化不自动反映到 token。
-      //当浏览器localStorage的token被修改时，就会触发清理函数。const [localToken, setLocalToken] = useState(localStorage.getItem("token") || "");
-    };
-  }, [userInfo, token]);
+    return () => {};
+  }, [userInfo]);
   return (
     <div className="profile">
       <div className="profile-info">
@@ -48,7 +42,7 @@ function ProfileScreen(props) {
               </li>
               <li>
                 <label>Name</label>
-                {/*在 <form> 中，提交时会生成键值对（如 { name: "输入的值" }）。 */}
+                {/*在 <form> 中， name="name" 提交时会生成键值对（如 { name: "输入的值" }）。 */}
                 <input
                   value={name}
                   type="text"

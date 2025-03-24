@@ -19,7 +19,7 @@ import {
   ORDER_LIST_SUCCESS,
   ORDER_LIST_FAIL,
 } from "../constants/orderConstants";
-const listMyOrders = () => async (dispatch, getState) => {
+const listMyOrders = (token) => async (dispatch, getState) => {
   try {
     dispatch({ type: MY_ORDER_LIST_REQUEST });
     /*
@@ -47,7 +47,7 @@ const listMyOrders = () => async (dispatch, getState) => {
       "/api/orders/mine",
       {},
       {
-        headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+        headers: { Authorization: "Bearer " + token },
       }
     );
     dispatch({ type: MY_ORDER_LIST_SUCCESS, payload: data });

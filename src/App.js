@@ -10,14 +10,14 @@ import { useSelector, useDispatch } from "react-redux";
 function App() {
   const userSignin = useSelector((state) => state.userSignin);
   const { userInfo, token } = userSignin;
+  //React Developer Tools   Redux DevTools
+
   const dispatch = useDispatch();
   useEffect(() => {
     if (token) {
       dispatch(verifyToken(token));
     }
-    return () => {
-      //
-    };
+    return () => {};
   }, [token]);
   return (
     <BrowserRouter>

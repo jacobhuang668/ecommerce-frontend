@@ -2,12 +2,13 @@ import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
 import Cookie from "js-cookie";
 import { productListReducers } from "./reducers/productReducers";
-import { userSigninReducer } from "./reducers/userReducers";
+import { userSigninReducer, userUpdateReducer } from "./reducers/userReducers";
 import { myOrderListReducer } from "./reducers/orderReducers";
 const reducer = combineReducers({
   productList: productListReducers,
   userSignin: userSigninReducer,
   myOrderList: myOrderListReducer,
+  userUpdate: userUpdateReducer,
 });
 //const token = Cookie.getJSON("token") || null;
 const token = localStorage.getItem("token");

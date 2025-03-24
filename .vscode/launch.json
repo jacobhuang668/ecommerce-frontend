@@ -1,0 +1,24 @@
+
+{
+    "version": "0.2.0",
+    "configurations": [
+        
+      {
+        "name": "Launch React in Chrome",
+        "type": "chrome",
+        "request": "launch",
+        "url": "http://localhost:3001",
+        "webRoot": "${workspaceFolder}/ecommerce-frontend/src",
+        "sourceMapPathOverrides": {
+          "webpack:///src/*": "${webRoot}/*"
+        }
+       // "restart": true // 允许 VS Code 自动重启调试进程
+      }
+    ],
+    "compounds": [
+      {
+        "name": "Launch React",
+        "configurations": ["Launch React in Chrome"]
+      }
+    ]
+  }
