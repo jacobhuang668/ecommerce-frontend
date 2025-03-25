@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, update } from "../actions/userActions";
 import { listMyOrders } from "../actions/orderActions";
+import { USER_UPDATE_REQUEST } from "../constants/userConstants";
 function ProfileScreen(props) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -13,7 +14,7 @@ function ProfileScreen(props) {
   const { loading: orderLoading, orders, error: orderError } = myOrderList;
 
   const userUpdate = useSelector((state) => state.userUpdate);
-  const { loading: updateLoading, error: updateError, success } = userUpdate;
+  const { loading: updateLoading } = userUpdate;
 
   const dispatch = useDispatch();
   function onSubmitHandler(e) {
@@ -22,6 +23,11 @@ function ProfileScreen(props) {
   }
 
   useEffect(() => {
+    //if (!updateLoading) 会将所有假值（包括 undefined）视为 true
+    if (updateLoading === false) {
+      props.history.push("/");
+      dispatch({ type: USER_UPDATE_REQUEST });
+    }
     //input 显示数据
     if (userInfo) {
       setName(userInfo.name ?? "");
@@ -30,7 +36,7 @@ function ProfileScreen(props) {
       dispatch(listMyOrders(token));
     }
     return () => {};
-  }, [userInfo]);
+  }, [userInfo, updateLoading]);
   return (
     <div className="profile">
       <div className="profile-info">
